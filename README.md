@@ -1,4 +1,4 @@
-# An Introduction to Statistical Learning - Exercises
+# An Introduction to Statistical Learning (2023) – Exercises
 
 Solved exercises from this machine learning manual are available in this repository.
 
