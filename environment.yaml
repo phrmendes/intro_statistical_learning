@@ -1,0 +1,14 @@
+name: islp 
+channels:
+  - conda-forge
+dependencies:
+  - ipykernel
+  - ipython
+  - matplotlib
+  - numpy
+  - pandas
+  - ruff
+  - scikit-learn
+  - statsmodels
+  - pandas-stubs
+  - pre-commit
