@@ -34,8 +34,4 @@ ignore = [
   "S603",   # subprocess call - check for execution of untrusted input
 ]
 
-exclude = [
-  "__init__.py",
-  "__pycache__",
-  ".venv"
-]
+exclude = ["__init__.py", "__pycache__", ".venv"]

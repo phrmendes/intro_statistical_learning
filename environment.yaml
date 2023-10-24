@@ -1,17 +1,15 @@
-name: islp 
+name: islp
 channels:
   - conda-forge
 dependencies:
   - ipython
-  - jupyter-lsp-python
   - jupyterlab
-  - jupyterlab-lsp
-  - jupyterlab-vim
+  - jupytext
+  - matplotlib
   - numpy
   - pandas
   - pandas-stubs
   - python
-  - ruff
   - scikit-learn
   - seaborn
   - statsmodels
