@@ -15,18 +15,19 @@
       config.allowUnfree = true;
     };
     fhs = pkgs.buildFHSUserEnv {
-      name = "Micromamba environment";
+      name = "micromamba-fhs";
 
-      targetPkgs = _: [
-        pkgs.micromamba
-      ];
+      targetPkgs = pkgs:
+        with pkgs; [
+          micromamba
+        ];
 
       profile = ''
-        eval "$(micromamba shell hook --shell=bash)"
-        export MAMBA_ROOT_PREFIX=~/.micromamba
+        export MAMBA_ROOT_PREFIX=./.mamba
+        eval "$(micromamba shell hook --shell=posix)"
 
-        if [ ! -d ~/.micromamba ]; then
-          micromamba create -f environment.yaml
+        if [ ! -d $MAMBA_ROOT_PREFIX ]; then
+          micromamba create -f env.yaml --yes
         fi
 
         micromamba activate islp
