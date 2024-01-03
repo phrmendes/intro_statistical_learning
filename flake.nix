@@ -24,13 +24,18 @@
 
       profile = ''
         export MAMBA_ROOT_PREFIX=./.mamba
+
         eval "$(micromamba shell hook --shell=posix)"
 
         if [ ! -d $MAMBA_ROOT_PREFIX ]; then
           micromamba create -f environment.yaml --yes
         fi
 
-        micromamba activate islp
+        if ! git diff --quiet -- environment.yaml; then
+          micromamba update -f environment.yaml --yes --quiet
+        fi
+
+        micromamba activate islp --quiet
       '';
     };
   in {

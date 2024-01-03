@@ -5,6 +5,7 @@ dependencies:
   - python==3.11.3
   - ipython
   - jupyter-lsp-python
+  - jupyter-lsp-r
   - jupyterlab
   - jupyterlab_vim
   - matplotlib
