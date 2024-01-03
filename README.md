@@ -4,4 +4,4 @@ Solved exercises from this machine learning manual are available in this reposit
 
 # References
 
-James, G., Witten, D., Hastie, T., & Tibshirani, R. (2023). An introduction to statistical learning (Second edition). Springer. https://doi.org/10.1007/978-1-0716-1418-1
+James, Gareth, et al. *An introduction to statistical learning: With applications in Python*. Springer Nature, 2023.

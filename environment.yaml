@@ -6,6 +6,7 @@ dependencies:
   - ipython
   - jupyter-lsp-python
   - jupyterlab
+  - jupyterlab_vim
   - matplotlib
   - pip:
       - ISLP
