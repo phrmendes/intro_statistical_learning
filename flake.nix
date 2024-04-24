@@ -23,16 +23,16 @@
         ];
 
       profile = ''
-        export MAMBA_ROOT_PREFIX=./.mamba
+        export MAMBA_ROOT_PREFIX=$(pwd)/.mamba
 
         eval "$(micromamba shell hook --shell=posix)"
 
         if [ ! -d $MAMBA_ROOT_PREFIX ]; then
-          micromamba create -f environment.yaml --yes
+          micromamba create -f env.yaml --yes
         fi
 
-        if ! git diff --quiet -- environment.yaml; then
-          micromamba update -f environment.yaml --yes --quiet
+        if ! git diff --quiet -- env.yaml; then
+          micromamba update -f env.yaml --yes --quiet
         fi
 
         micromamba activate islp --quiet
