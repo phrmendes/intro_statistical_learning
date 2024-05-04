@@ -3,42 +3,42 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
-    self,
+    flake-utils,
     nixpkgs,
-  }: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    fhs = pkgs.buildFHSUserEnv {
-      name = "micromamba";
+    self,
+  }:
+    flake-utils.lib.eachDefaultSystem (
+      system: let
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+          };
+        };
+        fhs = pkgs.buildFHSUserEnv {
+          name = "islp";
 
-      targetPkgs = pkgs:
-        with pkgs; [
-          micromamba
-        ];
+          profile = with pkgs; ''
+            export LD_LIBRARY_PATH=${stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
+            export LD_LIBRARY_PATH=${zlib}/lib:$LD_LIBRARY_PATH
+          '';
 
-      profile = ''
-        export MAMBA_ROOT_PREFIX=$(pwd)/.mamba
+          runScript = ''poetry shell'';
 
-        eval "$(micromamba shell hook --shell=posix)"
-
-        if [ ! -d $MAMBA_ROOT_PREFIX ]; then
-          micromamba create -f env.yaml --yes
-        fi
-
-        if ! git diff --quiet -- env.yaml; then
-          micromamba update -f env.yaml --yes --quiet
-        fi
-
-        micromamba activate islp --quiet
-      '';
-    };
-  in {
-    devShells."${system}".default = fhs.env;
-  };
+          targetPkgs = pkgs: (with pkgs; [
+            poetry
+            python312
+            quarto
+            ruff
+            ruff-lsp
+          ]);
+        };
+      in {
+        devShell = fhs.env;
+      }
+    );
 }
