@@ -3,42 +3,43 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
-    flake-utils,
+    utils,
     nixpkgs,
-    self,
+    ...
   }:
-    flake-utils.lib.eachDefaultSystem (
+    utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {
           inherit system;
-          config = {
-            allowUnfree = true;
-          };
-        };
-        fhs = pkgs.buildFHSUserEnv {
-          name = "islp";
-
-          profile = with pkgs; ''
-            export LD_LIBRARY_PATH=${stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
-            export LD_LIBRARY_PATH=${zlib}/lib:$LD_LIBRARY_PATH
-          '';
-
-          runScript = ''poetry shell'';
-
-          targetPkgs = pkgs: (with pkgs; [
-            poetry
-            python312
-            quarto
-            ruff
-            ruff-lsp
-          ]);
+          config.allowUnfree = true;
         };
       in {
-        devShell = fhs.env;
+        devShells.default = with pkgs;
+          mkShell {
+            packages = [
+              python313
+              uv
+            ];
+
+            shellHook = ''
+              VENV="./.venv/bin/activate"
+
+              if [[ ! -f $VENV ]]; then
+                ${pkgs.uv}/bin/uv venv
+              fi
+
+              source "$VENV"
+            '';
+
+            LD_LIBRARY_PATH = lib.makeLibraryPath [
+              stdenv.cc.cc
+              zlib
+            ];
+          };
       }
     );
 }

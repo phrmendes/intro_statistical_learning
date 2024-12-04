@@ -1,50 +1,52 @@
-[tool.poetry]
+[project]
 name = "islp"
 version = "0.1.0"
-description = "Solved exercises - An Introduction to Statistical Learning"
-authors = ["Pedro Mendes <pedrohrmendes@proton.me>"]
+description = "Solved exercises from An Introduction to Statistical Learning (2023)"
 readme = "README.md"
-repository = "https://github.com/phrmendes/intro_statistical_learning"
-keywords = ["machine learning", "statistics"]
-license = "GPL-3.0"
+requires-python = ">=3.13"
+dependencies = [
+  "jupyterlab-lsp>=5.1.0",
+  "jupyterlab>=4.3.1",
+  "matplotlib>=3.9.3",
+  "pandas>=2.2.3",
+  "pylsp-mypy>=0.6.9",
+  "python-lsp-ruff>=2.2.2",
+  "python-lsp-server>=1.12.0",
+  "scikit-learn>=1.5.2",
+  "statsmodels>=0.14.4",
+]
 
-[tool.poetry.dependencies]
-basedpyright = "^1.11.0"
-debugpy = "^1.8.1"
-ipython = "^8.22.2"
-jupyterlab = "^4.1.5"
-matplotlib = "^3.8.3"
-numpy = "^1.26.4"
-pandas = "^2.2.1"
-pyarrow = "^15.0.2"
-python = "^3.12"
-scikit-learn = "^1.4.1.post1"
-statsmodels = "^0.14.1"
+[tool.pylsp.plugins]
+ruff = { enabled = true, formatEnabled = true }
+pylsp_mypy = { enabled = true }
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.pyright]
-typeCheckingMode = "basic"
-useLibraryCodeForTypes = true
-venvPath = ".venv"
-
-[tool.jupytext]
-formats = "ipynb,py:percent"
+[tool.pylsp-mypy]
+enabled = true
+live_mode = true
 
 [tool.ruff]
-target-version = "py312"
-line-length = 88
+target-version = "py313"
+line-length = 120
 indent-width = 4
-select = ["ALL"]
-exclude = [".git", ".ruff_cache", "__pycache__"]
 
-ignore = [
-  "ANN101", # missing type annotation for self in method
-  "ARG001", # unused function argument
-  "D100",   # missing docstring in public module
-  "D103",   # missing docstring in public function
-  "S603",   # subprocess call - check for execution of untrusted input
-  "T201",   # print statement used in code
+[tool.ruff.lint]
+fixable = ["ALL"]
+select = [
+  "A",
+  "ARG",
+  "B",
+  "C4",
+  "DTZ",
+  "E",
+  "F",
+  "I",
+  "N",
+  "PL",
+  "PT",
+  "PTH",
+  "RUF",
+  "W",
 ]
+
+[tool.ruff.format]
+quote-style = "double"
