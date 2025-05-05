@@ -14,7 +14,10 @@
     {
       devShells.${system}.default = pkgs.mkShell {
 
-        packages = [ (pkgs.python313.withPackages (p: with p; [ uv ])) ];
+        packages = with pkgs; [
+          python313
+          uv
+        ];
 
         shellHook = ''
           VENV=".venv/bin/activate"
